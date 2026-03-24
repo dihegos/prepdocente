@@ -4,8 +4,8 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-cambiar")
-    db_url = os.environ.get("DATABASE_URL")
 
+    db_url = os.environ.get("DATABASE_URL")
     if db_url:
         SQLALCHEMY_DATABASE_URI = db_url.replace("postgres://", "postgresql://", 1)
     else:
