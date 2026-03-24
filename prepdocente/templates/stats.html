@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card hero-card mb-4">
+    <div class="card-body p-4 p-md-5">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <div class="duo-pill mb-3">📊 Tu progreso</div>
+                <h1 class="duo-title mb-2">Estadísticas de estudio</h1>
+                <p class="duo-subtitle mb-0">
+                    Aquí puedes ver tu rendimiento general, tus mejores resultados
+                    y las categorías que necesitas reforzar.
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{{ url_for('main.quiz_all') }}" class="btn-duolingo-pro">
+                    🚀 Hacer simulacro
+                </a>
+                <a href="{{ url_for('main.index') }}" class="btn-duo-outline">
+                    🏠 Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="duo-stat">
+            <div class="duo-stat-number">{{ total_attempts }}</div>
+            <div class="duo-stat-label">Intentos</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="duo-stat">
+            <div class="duo-stat-number">{{ passed_attempts }}</div>
+            <div class="duo-stat-label">Aprobados</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="duo-stat">
+            <div class="duo-stat-number">{{ best_grade }}</div>
+            <div class="duo-stat-label">Mejor nota</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="duo-stat">
+            <div class="duo-stat-number">{{ avg_grade }}</div>
+            <div class="duo-stat-label">Promedio</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body p-4">
+                <h4 class="section-card-title">🎯 Rendimiento general</h4>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between small fw-bold text-muted mb-2">
+                        <span>Tasa de aprobación</span>
+                        <span>{{ pass_rate }}%</span>
+                    </div>
+                    <div class="duo-progress">
+                        <div class="duo-progress-bar" style="width: {{ pass_rate }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between small fw-bold text-muted mb-2">
+                        <span>Precisión global</span>
+                        <span>{{ accuracy_rate }}%</span>
+                    </div>
+                    <div class="duo-progress">
+                        <div class="duo-progress-bar" style="width: {{ accuracy_rate }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="attempt-item mb-3">
+                        <div class="fw-bold">✅ Respuestas correctas acumuladas</div>
+                        <div class="text-muted">{{ total_correct }} correctas en total</div>
+                    </div>
+
+                    <div class="attempt-item mb-3">
+                        <div class="fw-bold">❌ Respuestas incorrectas acumuladas</div>
+                        <div class="text-muted">{{ total_incorrect }} incorrectas en total</div>
+                    </div>
+
+                    <div class="attempt-item">
+                        <div class="fw-bold">📝 Total de preguntas respondidas</div>
+                        <div class="text-muted">{{ total_answered }} respuestas registradas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body p-4">
+                <h4 class="section-card-title">🏅 Resumen rápido</h4>
+
+                <div class="attempt-item mb-3">
+                    <div class="fw-bold">Mejor categoría</div>
+                    <div class="text-muted">
+                        {% if best_category %}
+                            {{ best_category.name }} — {{ best_category.accuracy }}%
+                        {% else %}
+                            Aún sin datos suficientes
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="attempt-item mb-3">
+                    <div class="fw-bold">Categoría a reforzar</div>
+                    <div class="text-muted">
+                        {% if weakest_category %}
+                            {{ weakest_category.name }} — {{ weakest_category.accuracy }}%
+                        {% else %}
+                            Aún sin datos suficientes
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="attempt-item mb-3">
+                    <div class="fw-bold">Último resultado</div>
+                    <div class="text-muted">
+                        {% if last_attempt %}
+                            {{ last_attempt.score }}/{{ last_attempt.total_questions }}
+                            · {{ "%.1f"|format(last_attempt.grade_10) }}/10.0
+                        {% else %}
+                            Aún no has realizado intentos
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="attempt-item">
+                    <div class="fw-bold">Última actividad</div>
+                    <div class="text-muted">
+                        {% if last_attempt %}
+                            {{ last_attempt.started_at.strftime('%Y-%m-%d %H:%M') }}
+                        {% else %}
+                            Sin actividad registrada
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body p-4">
+        <h4 class="section-card-title">📚 Rendimiento por categoría</h4>
+
+        {% if category_stats %}
+            <div class="d-flex flex-column gap-3 mt-3">
+                {% for item in category_stats %}
+                    <div class="category-item">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-2">
+                            <div>
+                                <div class="fw-bold">{{ item.name }}</div>
+                                <small class="text-muted">
+                                    {{ item.correct }}/{{ item.total }} correctas
+                                </small>
+                            </div>
+
+                            <div class="duo-pill">
+                                {{ item.accuracy }}%
+                            </div>
+                        </div>
+
+                        <div class="duo-progress">
+                            <div class="duo-progress-bar" style="width: {{ item.accuracy }}%;"></div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted mb-0">Todavía no hay datos por categoría.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-4">
+        <h4 class="section-card-title">🕘 Historial reciente</h4>
+
+        {% if recent_attempts %}
+            <div class="d-flex flex-column gap-3 mt-3">
+                {% for attempt in recent_attempts %}
+                    <div class="attempt-item d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div>
+                            <div class="fw-bold">
+                                {{ attempt.category or 'Simulacro completo' }}
+                            </div>
+                            <small class="text-muted">
+                                {{ attempt.started_at.strftime('%Y-%m-%d %H:%M') }}
+                                {% if attempt.mode %}
+                                    ·
+                                    {% if attempt.mode == 'exam' %}
+                                        Simulacro
+                                    {% else %}
+                                        Práctica
+                                    {% endif %}
+                                {% endif %}
+                            </small>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            {% if attempt.passed %}
+                                <span class="badge-duo-success">
+                                    {{ attempt.score }}/{{ attempt.total_questions }} · {{ "%.1f"|format(attempt.grade_10) }}/10
+                                </span>
+                            {% else %}
+                                <span class="badge-duo-danger">
+                                    {{ attempt.score }}/{{ attempt.total_questions }} · {{ "%.1f"|format(attempt.grade_10) }}/10
+                                </span>
+                            {% endif %}
+
+                            <a href="{{ url_for('main.review', attempt_id=attempt.id) }}" class="btn-duo-outline">
+                                Revisar
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted mb-0">Aún no has realizado intentos.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,355 @@
+:root {
+    --duo-green: #58cc02;
+    --duo-green-dark: #46a302;
+    --duo-green-soft: #e9fbd7;
+    --duo-blue: #1cb0f6;
+    --duo-yellow: #ffd900;
+    --duo-red: #ff4b4b;
+    --duo-bg: #f7f7fb;
+    --duo-card: #ffffff;
+    --duo-text: #24323f;
+    --duo-muted: #6c7a89;
+    --duo-border: #e8edf3;
+}
+
+body {
+    background: linear-gradient(180deg, #f7f7fb 0%, #eef7ff 100%);
+    color: var(--duo-text);
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar-duo {
+    background: linear-gradient(90deg, var(--duo-green) 0%, #6fe30c 100%);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: 0.2px;
+}
+
+.card {
+    border: none;
+    border-radius: 24px;
+    background: var(--duo-card);
+    box-shadow: 0 10px 28px rgba(31, 41, 55, 0.08);
+}
+
+.hero-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f6fff0 100%);
+    border: 2px solid #e6f7d6;
+}
+
+.duo-title {
+    font-weight: 800;
+    font-size: clamp(1.8rem, 2vw, 2.3rem);
+}
+
+.duo-subtitle {
+    color: var(--duo-muted);
+    font-size: 1.05rem;
+}
+
+.duo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    color: var(--duo-text);
+    border: 2px solid var(--duo-border);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 700;
+    font-size: 0.92rem;
+}
+
+.duo-stat {
+    background: #fff;
+    border: 2px solid var(--duo-border);
+    border-radius: 20px;
+    padding: 16px;
+    text-align: center;
+    height: 100%;
+}
+
+.duo-stat-number {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--duo-green-dark);
+}
+
+.duo-stat-label {
+    color: var(--duo-muted);
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+.btn-duolingo-pro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    background: var(--duo-green);
+    color: white;
+    font-weight: 800;
+    font-size: 0.98rem;
+    padding: 12px 22px;
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 5px 0 var(--duo-green-dark);
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-duolingo-pro:hover {
+    color: white;
+    background: #69df0a;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 var(--duo-green-dark);
+}
+
+.btn-duolingo-pro:active {
+    color: white;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--duo-green-dark);
+}
+
+.btn-duo-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #fff;
+    color: var(--duo-text);
+    border: 2px solid var(--duo-border);
+    font-weight: 800;
+    padding: 11px 18px;
+    border-radius: 18px;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-duo-outline:hover {
+    color: var(--duo-text);
+    background: #f7fbff;
+    transform: translateY(-1px);
+    border-color: #d8e6f4;
+}
+
+.btn-video-solution {
+    background: linear-gradient(180deg, #ff5f5f 0%, #ff4b4b 100%);
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    font-weight: 800;
+    padding: 11px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 5px 0 #d93b3b;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-video-solution:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 #d93b3b;
+}
+
+.btn-video-solution:active {
+    color: #fff;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #d93b3b;
+}
+
+.section-card-title {
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.category-item {
+    border: 2px solid var(--duo-border);
+    border-radius: 18px;
+    padding: 14px;
+    transition: all 0.15s ease;
+    background: #fff;
+}
+
+.category-item:hover {
+    transform: translateY(-2px);
+    border-color: #d5e6f8;
+    background: #fbfdff;
+}
+
+.attempt-item {
+    border: 2px solid var(--duo-border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    background: #fff;
+}
+
+.result-score {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--duo-green-dark);
+}
+
+.result-grade {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.badge-duo-success {
+    background: #ddf7c8;
+    color: #287100;
+    border: 1px solid #bfe89e;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: 999px;
+}
+
+.badge-duo-danger {
+    background: #ffe1e1;
+    color: #b42323;
+    border: 1px solid #ffc1c1;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: 999px;
+}
+
+.review-card {
+    border: 2px solid var(--duo-border);
+}
+
+.review-question-title {
+    font-weight: 800;
+    font-size: 1.15rem;
+}
+
+.answer-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.answer-user {
+    background: #eef6ff;
+    color: #145a96;
+    border: 1px solid #cfe6ff;
+}
+
+.answer-correct {
+    background: #e8f9d8;
+    color: #2c7a00;
+    border: 1px solid #c7ebac;
+}
+
+.explanation-box {
+    background: #fffdf3;
+    border: 2px solid #ffefb0;
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.video-box {
+    border: 2px solid #ffd0d0;
+    background: #fff7f7;
+    border-radius: 20px;
+    padding: 16px;
+}
+
+.ratio iframe {
+    border: 0;
+    border-radius: 18px;
+}
+
+.quiz-header-card {
+    border: 2px solid #dff3cb;
+    background: linear-gradient(135deg, #ffffff 0%, #f5ffe8 100%);
+}
+
+.duo-progress {
+    height: 16px;
+    border-radius: 999px;
+    background: #e8eef5;
+    overflow: hidden;
+}
+
+.duo-progress-bar {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--duo-green), #7ae90f);
+}
+
+.sticky-submit {
+    position: sticky;
+    bottom: 14px;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+}
+
+.sticky-submit .submit-wrap {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--duo-border);
+    border-radius: 22px;
+    padding: 12px 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.option-row {
+    background: #fcfcfd;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 2px solid #e8edf3 !important;
+    border-radius: 18px !important;
+}
+
+.option-row:hover {
+    background: #f6fff0;
+    border-color: #b8e78f !important;
+    transform: translateY(-1px);
+}
+
+.option-row input[type="radio"] {
+    transform: scale(1.15);
+}
+
+.question-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    font-weight: 600;
+}
+
+.instructions-box,
+.passage-card,
+.quiz-card {
+    border-radius: 22px !important;
+}
+
+.footer-space {
+    height: 30px;
+}
+
+@media (max-width: 768px) {
+    .result-score {
+        font-size: 2.3rem;
+    }
+
+    .btn-duolingo-pro,
+    .btn-duo-outline,
+    .btn-video-solution {
+        width: 100%;
+    }
+}

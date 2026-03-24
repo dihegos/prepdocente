@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card mb-4">
+    <div class="card-body p-4 p-md-5 text-center">
+
+        <div class="mb-3">
+            {% if attempt.passed %}
+                <span class="badge-duo-success">✅ Aprobado</span>
+            {% else %}
+                <span class="badge-duo-danger">❌ No aprobado</span>
+            {% endif %}
+        </div>
+
+        <h1 class="fw-bold mb-3">Resultado del intento</h1>
+
+        <p class="text-muted mb-4">
+            Aquí puedes ver tu puntaje general y revisar tu desempeño.
+        </p>
+
+        <div class="result-score mb-2">
+            {{ attempt.score }} / {{ attempt.total_questions }}
+        </div>
+
+        <div class="result-grade mb-4">
+            Calificación:
+            <strong>{{ "%.1f"|format(attempt.grade_10) }}/10.0</strong>
+        </div>
+
+        <div class="row g-3 justify-content-center mb-4">
+            <div class="col-6 col-md-3">
+                <div class="duo-stat">
+                    <div class="duo-stat-number">{{ attempt.score }}</div>
+                    <div class="duo-stat-label">Correctas</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="duo-stat">
+                    <div class="duo-stat-number">{{ attempt.total_questions - attempt.score }}</div>
+                    <div class="duo-stat-label">Incorrectas</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="duo-stat">
+                    <div class="duo-stat-number">{{ attempt.total_questions }}</div>
+                    <div class="duo-stat-label">Total</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="duo-stat">
+                    <div class="duo-stat-number">{{ "%.0f"|format((attempt.score / attempt.total_questions) * 100) }}%</div>
+                    <div class="duo-stat-label">Acierto</div>
+                </div>
+            </div>
+        </div>
+
+        {% if attempt.passed %}
+            <div class="alert alert-success rounded-4 border-0 shadow-sm mx-auto mb-4" style="max-width: 760px;">
+                <h5 class="fw-bold mb-2">🎉 ¡Muy bien!</h5>
+                <p class="mb-0">
+                    Alcanzaste una nota aprobatoria.
+                    {% if attempt.mode == 'exam' and next_set %}
+                        El siguiente simulacro disponible será el <strong>Set {{ next_set }}</strong>.
+                    {% endif %}
+                </p>
+            </div>
+        {% else %}
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mx-auto mb-4" style="max-width: 760px;">
+                <h5 class="fw-bold mb-2">💪 Sigue intentando</h5>
+                <p class="mb-0">
+                    Todavía no alcanzas 8.0/10.0. Revisa tus respuestas, aprende de los errores y vuelve a intentarlo.
+                </p>
+            </div>
+        {% endif %}
+
+        {% if attempt.category %}
+        <div class="mb-4">
+            <span class="duo-pill">📚 {{ attempt.category }}</span>
+            {% if attempt.mode %}
+                <span class="duo-pill">
+                    {% if attempt.mode == 'exam' %}
+                        ⏱️ Simulacro
+                    {% else %}
+                        🎯 Práctica
+                    {% endif %}
+                </span>
+            {% endif %}
+            {% if attempt.quiz_set %}
+                <span class="duo-pill">🧩 Set {{ attempt.quiz_set }}</span>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+            <a class="btn-duolingo-pro" href="{{ url_for('main.review', attempt_id=attempt.id) }}">
+                🔎 Revisar respuestas
+            </a>
+
+            <a class="btn-duo-outline" href="{{ url_for('main.quiz_all') }}">
+                🔁 Hacer simulacro
+            </a>
+
+            <a class="btn-duo-outline" href="{{ url_for('main.index') }}">
+                🏠 Volver al inicio
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card quiz-header-card mb-4">
+    <div class="card-body p-4 p-md-5">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+                <h2 class="mb-2 fw-bold">{{ title }}</h2>
+                <p class="text-muted mb-0">
+                    Responde cada pregunta y selecciona una sola opción.
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                <span class="duo-pill">📚 {{ questions|length }} preguntas</span>
+
+                {% if timed %}
+                    <span class="duo-pill">⏱️ Modo simulacro</span>
+                {% else %}
+                    <span class="duo-pill">🎯 Modo práctica</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post" action="{{ url_for('main.submit') }}">
+    <input type="hidden" name="mode" value="{{ 'exam' if timed else 'practice' }}">
+    <input type="hidden" name="category" value="{{ title if not timed else '' }}">
+    <input type="hidden" name="quiz_set" value="{{ current_set if timed else 1 }}">
+
+    {% for q in questions %}
+
+        {% if q.number == 41 %}
+        <div class="alert alert-info shadow-sm border-0 mb-4 instructions-box">
+            <strong>PARTE II – INSTRUCCIONES:</strong>
+            cada una de las siguientes oraciones tiene dos o más espacios en blanco.
+            Cada espacio indica que se ha omitido una palabra.
+            Debajo de las oraciones hay cuatro opciones señaladas con las letras A, B, C y D.
+            Elija la opción de palabras o frases que, al insertarse en la oración,
+            complete mejor su significado; luego seleccione el encasillado correspondiente.
+        </div>
+        {% endif %}
+
+        {% if q.number == 51 %}
+        <div class="alert alert-info shadow-sm border-0 mb-4 instructions-box">
+            <strong>PARTE III – ANTÓNIMOS:</strong>
+            cada una de las siguientes preguntas consta de una palabra o frase impresa en letras mayúsculas,
+            seguida de cuatro palabras designadas con las letras A, B, C y D.
+            Elija la letra de la palabra o frase que indique el antónimo o significado opuesto
+            de la palabra en letras mayúsculas.
+        </div>
+        {% endif %}
+
+        {% if q.number == 56 %}
+        <div class="alert alert-info shadow-sm border-0 mb-4 instructions-box">
+            <strong>PARTE IV – SINÓNIMOS:</strong>
+            cada una de las siguientes preguntas consta de una palabra o frase impresa en letras mayúsculas,
+            seguida de cuatro palabras designadas con las letras A, B, C y D.
+            Elija la letra de la palabra o frase que indique el sinónimo o significado similar
+            a la palabra en letras mayúsculas.
+        </div>
+        {% endif %}
+
+        {% if q.number == 61 %}
+        <div class="alert alert-info shadow-sm border-0 mb-4 instructions-box">
+            <strong>PARTE V – ANALOGÍAS:</strong>
+            en cada una de las siguientes preguntas se presenta un par de palabras relacionadas
+            seguidas de cuatro pares de palabras designadas con las letras A, B, C y D.
+            Elija la letra del par de palabras que mejor indique una relación similar a la del par original.
+        </div>
+        {% endif %}
+
+        {% if q.number == 66 %}
+        <div class="alert alert-info shadow-sm border-0 mb-4 instructions-box">
+            <strong>PARTE VI – COMPRENSIÓN LECTORA:</strong>
+            después de leer el pasaje, elija la mejor respuesta a cada pregunta basándose
+            en lo que el texto afirma o implica.
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0 passage-card">
+            <div class="card-body p-4 p-md-5">
+                <h5 class="fw-bold mb-3">📖 Texto base: EL FUTURO CUMPLE 30 AÑOS</h5>
+                <div class="passage-text">
+                    Un piloto de los bombarderos B-17 durante la Segunda Guerra Mundial, y más tarde guionista de series televisivas del Oeste posibilitó los viajes espaciales a velocidades lumínicas; desarrolló un sistema capaz de transportar seres humanos gracias a la separación molecular, concibió los teléfonos celulares, proyectó la primera generación de máquinas inteligentes y contribuyó notablemente a la exploración de buena parte del Universo.<br><br>
+
+                    Pocos recuerdan su nombre y para la comunidad científica mundial es un discreto y redondo cero a la izquierda. Sus ideas, sin embargo, agregaron una buena cantidad de estos ceros a la derecha en su cuenta bancaria y le aseguraron reconocimiento eterno por parte de los fieles cultores de la ciencia ficción. Gene Rodenberry, arquitecto de la más popular serie futurista de todos los tiempos: Star Trek. Él falleció en 1991, cuando se conmemoraron 25 años de la emisión de The Man Trap, su primer capítulo. En 1996 los viajes de la nave Enterprise celebraron 30 años de lo que comenzó siendo un trivial programa semanal de aventuras espaciales y terminó convirtiéndose en un fenómeno que superó ampliamente los cálculos más optimistas.<br><br>
+
+                    Lo curioso del asunto es que, en su momento, Viaje a las Estrellas fue producida con restricciones económicas por parte de la cadena NBC. Durante los 79 episodios grabados, jamás la nave U.S.S. Enterprise NCC 1701 pudo aterrizar en la superficie de planeta alguno y la razón se vino a conocer años después, ya que el presupuesto no permitía invertir en los escenarios capaces de dar credibilidad al descenso. Por ello, el orgullo de la Federación Unida de Planetas se limitó a girar tímidamente alrededor de mundos a los cuales la tripulación accedía gracias a la brillante y ahorrativa idea del teletransportador. Para rematar, una feliz “coincidencia” aseguró que la inmensa mayoría de estos cuerpos celestes contara con atmósferas respirables, así que tampoco había que invertir mucho en trajes espaciales.<br><br>
+
+                    Escenarios de cartón, uniformes de tela ordinaria, miniaturas y maquetas fabricadas con materiales de ocasión, la conquista del espacio hecha con las uñas pero convertida en una mina de oro prácticamente inagotable.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if q.number == 71 %}
+        <div class="card shadow-sm mb-4 border-0 passage-card">
+            <div class="card-body p-4 p-md-5">
+                <h5 class="fw-bold mb-3">📖 Texto base: EL CULTO A LOS LIBROS</h5>
+                <div class="passage-text">
+                    De los diversos instrumentos inventados por el hombre, el más asombroso es, sin duda, el libro. Los demás son extensiones de su cuerpo. El microscopio, el telescopio, son extensiones de su vista, el teléfono es extensión de la voz, el arado y la espada, extensiones de su brazo. Pero el libro es otra cosa, el libro es una extensión de la memoria y de la imaginación.<br><br>
+
+                    Se habla de la desaparición del libro; yo creo que es imposible. Se dirá: qué diferencia puede haber entre un libro y un periódico o un disco. La diferencia es que un periódico se lee para el olvido; un disco se oye asimismo para el olvido, es algo mecánico y por lo tanto frívolo. Un libro se lee para la memoria.<br><br>
+
+                    Los antiguos no profesaban nuestro culto al libro, ya que veían a la palabra escrita como algo muerto. Pitágoras no escribió porque no quiso atarse a la palabra escrita, pues quería que su pensamiento viviese más allá de su muerte corporal en la mente de sus discípulos, y de esta forma ellos tuvieran la libertad de seguir pensando y repensando el pensamiento inicial de su maestro.<br><br>
+
+                    Platón veía los libros como efigies que uno cree que están vivas, pero si se les pregunta algo no contestan. Entonces, para corregir esa mudez de los libros, inventa el diálogo platónico y de esta forma se multiplica en muchos personajes.<br><br>
+
+                    Ahora vemos a las bibliotecas como si fuesen gabinetes mágicos, en donde están encantados los mejores espíritus de la humanidad, espíritus que esperan nuestra palabra para salir de su mudez. ¿Qué es un libro si no lo abrimos? Es simplemente un cubo de papel y cuero, pero si lo leemos ocurre algo raro. Si leemos un libro antiguo, es como si leyéramos todo el tiempo que ha transcurrido desde el día en que fue escrito hasta nosotros. Por eso conviene mantener el culto del libro.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if q.number == 81 %}
+        <div class="alert alert-info shadow-sm border-0 mb-4 instructions-box">
+            <strong>PRUEBA PEDAGÓGICA:</strong>
+            lea cuidadosamente cada situación o planteamiento y seleccione la opción
+            que mejor responda desde una perspectiva pedagógica y formativa.
+        </div>
+        {% endif %}
+
+        <input type="hidden" name="question_ids" value="{{ q.id }}">
+
+        <div class="card shadow-sm mb-4 border-0 quiz-card">
+            <div class="card-body p-4 p-md-5">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <div class="d-flex align-items-center flex-wrap gap-2">
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">Pregunta {{ q.number }}</span>
+                        <span class="text-muted small">{{ q.category }}</span>
+                    </div>
+                    <span class="duo-pill">#{{ loop.index }}</span>
+                </div>
+
+                <div class="question-text mb-4">
+                    {{ q.prompt }}
+                </div>
+
+                {% if q.image %}
+                <div class="question-figure text-center mb-4">
+                    <img
+                        src="{{ url_for('static', filename=q.image) }}"
+                        alt="Figura de la pregunta {{ q.number }}"
+                        class="img-fluid rounded-4 border bg-white p-2 shadow-sm"
+                        style="max-width: 420px;"
+                    >
+                </div>
+                {% endif %}
+
+                <div class="options-group d-grid gap-3">
+                    <label class="option-row d-flex align-items-start p-3 rounded border">
+                        <input
+                            class="form-check-input mt-1 me-3"
+                            type="radio"
+                            name="question_{{ q.id }}"
+                            value="A"
+                            id="q{{ q.id }}a"
+                        >
+                        <span><strong>A.</strong> {{ q.option_a }}</span>
+                    </label>
+
+                    <label class="option-row d-flex align-items-start p-3 rounded border">
+                        <input
+                            class="form-check-input mt-1 me-3"
+                            type="radio"
+                            name="question_{{ q.id }}"
+                            value="B"
+                            id="q{{ q.id }}b"
+                        >
+                        <span><strong>B.</strong> {{ q.option_b }}</span>
+                    </label>
+
+                    <label class="option-row d-flex align-items-start p-3 rounded border">
+                        <input
+                            class="form-check-input mt-1 me-3"
+                            type="radio"
+                            name="question_{{ q.id }}"
+                            value="C"
+                            id="q{{ q.id }}c"
+                        >
+                        <span><strong>C.</strong> {{ q.option_c }}</span>
+                    </label>
+
+                    <label class="option-row d-flex align-items-start p-3 rounded border mb-0">
+                        <input
+                            class="form-check-input mt-1 me-3"
+                            type="radio"
+                            name="question_{{ q.id }}"
+                            value="D"
+                            id="q{{ q.id }}d"
+                        >
+                        <span><strong>D.</strong> {{ q.option_d }}</span>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="sticky-submit py-3">
+        <div class="submit-wrap">
+            <button type="submit" class="btn-duolingo-pro">
+                ✅ Enviar respuestas
+            </button>
+        </div>
+    </div>
+</form>
+
+<div class="footer-space"></div>
+
+{% endblock %}

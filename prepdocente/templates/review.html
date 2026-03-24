@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card mb-4">
+    <div class="card-body p-4 p-md-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+                <h2 class="mb-2 fw-bold">Revisión del intento</h2>
+                <p class="text-muted mb-0">
+                    Puntaje: {{ attempt.score }}/{{ attempt.total_questions }}
+                    · Nota: {{ "%.1f"|format(attempt.grade_10) }}/10.0
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                {% if attempt.passed %}
+                    <span class="badge-duo-success">✅ Aprobado</span>
+                {% else %}
+                    <span class="badge-duo-danger">❌ No aprobado</span>
+                {% endif %}
+
+                {% if attempt.mode == 'exam' %}
+                    <span class="duo-pill">⏱️ Simulacro</span>
+                {% else %}
+                    <span class="duo-pill">🎯 Práctica</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for ans in answers %}
+<div class="card review-card mb-4">
+    <div class="card-body p-4 p-md-5">
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+            <div>
+                <div class="review-question-title mb-1">
+                    Pregunta {{ ans.question.number }}
+                </div>
+                <div class="text-muted small">
+                    {{ ans.question.category }}
+                </div>
+            </div>
+
+            <div>
+                {% if ans.is_correct %}
+                    <span class="badge-duo-success">✔ Correcta</span>
+                {% else %}
+                    <span class="badge-duo-danger">✘ Incorrecta</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="question-text mb-4">
+            {{ ans.question.prompt }}
+        </div>
+
+        {% if ans.question.image %}
+        <div class="mb-4 text-center">
+            <img
+                src="{{ url_for('static', filename=ans.question.image) }}"
+                class="img-fluid rounded-4 border bg-white p-2 shadow-sm"
+                style="max-width: 500px;"
+                alt="Imagen de la pregunta {{ ans.question.number }}"
+            >
+        </div>
+        {% endif %}
+
+        <div class="row g-3 mb-4">
+            {% if ans.question.option_a %}
+            <div class="col-12">
+                <div class="option-row p-3
+                    {% if ans.selected_option == 'A' and ans.question.correct_option == 'A' %}
+                        border border-success bg-success-subtle
+                    {% elif ans.selected_option == 'A' and ans.question.correct_option != 'A' %}
+                        border border-danger bg-danger-subtle
+                    {% elif ans.question.correct_option == 'A' %}
+                        border border-success bg-success-subtle
+                    {% endif %}
+                ">
+                    <strong>A.</strong> {{ ans.question.option_a }}
+
+                    {% if ans.selected_option == 'A' %}
+                        <span class="ms-2 answer-chip answer-user">Tu respuesta</span>
+                    {% endif %}
+                    {% if ans.question.correct_option == 'A' %}
+                        <span class="ms-2 answer-chip answer-correct">Correcta</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if ans.question.option_b %}
+            <div class="col-12">
+                <div class="option-row p-3
+                    {% if ans.selected_option == 'B' and ans.question.correct_option == 'B' %}
+                        border border-success bg-success-subtle
+                    {% elif ans.selected_option == 'B' and ans.question.correct_option != 'B' %}
+                        border border-danger bg-danger-subtle
+                    {% elif ans.question.correct_option == 'B' %}
+                        border border-success bg-success-subtle
+                    {% endif %}
+                ">
+                    <strong>B.</strong> {{ ans.question.option_b }}
+
+                    {% if ans.selected_option == 'B' %}
+                        <span class="ms-2 answer-chip answer-user">Tu respuesta</span>
+                    {% endif %}
+                    {% if ans.question.correct_option == 'B' %}
+                        <span class="ms-2 answer-chip answer-correct">Correcta</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if ans.question.option_c %}
+            <div class="col-12">
+                <div class="option-row p-3
+                    {% if ans.selected_option == 'C' and ans.question.correct_option == 'C' %}
+                        border border-success bg-success-subtle
+                    {% elif ans.selected_option == 'C' and ans.question.correct_option != 'C' %}
+                        border border-danger bg-danger-subtle
+                    {% elif ans.question.correct_option == 'C' %}
+                        border border-success bg-success-subtle
+                    {% endif %}
+                ">
+                    <strong>C.</strong> {{ ans.question.option_c }}
+
+                    {% if ans.selected_option == 'C' %}
+                        <span class="ms-2 answer-chip answer-user">Tu respuesta</span>
+                    {% endif %}
+                    {% if ans.question.correct_option == 'C' %}
+                        <span class="ms-2 answer-chip answer-correct">Correcta</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if ans.question.option_d %}
+            <div class="col-12">
+                <div class="option-row p-3
+                    {% if ans.selected_option == 'D' and ans.question.correct_option == 'D' %}
+                        border border-success bg-success-subtle
+                    {% elif ans.selected_option == 'D' and ans.question.correct_option != 'D' %}
+                        border border-danger bg-danger-subtle
+                    {% elif ans.question.correct_option == 'D' %}
+                        border border-success bg-success-subtle
+                    {% endif %}
+                ">
+                    <strong>D.</strong> {{ ans.question.option_d }}
+
+                    {% if ans.selected_option == 'D' %}
+                        <span class="ms-2 answer-chip answer-user">Tu respuesta</span>
+                    {% endif %}
+                    {% if ans.question.correct_option == 'D' %}
+                        <span class="ms-2 answer-chip answer-correct">Correcta</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <span class="answer-chip answer-user">
+                🧠 Elegiste: {{ ans.selected_option if ans.selected_option else 'Sin responder' }}
+            </span>
+
+            <span class="answer-chip answer-correct">
+                ✅ Correcta: {{ ans.question.correct_option }}
+            </span>
+        </div>
+
+        {% if ans.question.explanation %}
+        <div class="explanation-box mb-3">
+            <strong>Explicación:</strong><br>
+            {{ ans.question.explanation }}
+        </div>
+        {% endif %}
+
+        {% if ans.question.video_url %}
+        <div class="mt-3">
+            <button
+                class="btn-video-solution"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#video{{ ans.id }}"
+                aria-expanded="false"
+                aria-controls="video{{ ans.id }}">
+                🎥 Ver video de solución
+            </button>
+
+            <div class="collapse mt-3" id="video{{ ans.id }}">
+                <div class="video-box">
+                    <div class="ratio ratio-16x9">
+                        <iframe
+                            src="{{ ans.question.video_url | youtube_embed_url }}"
+                            title="Video de solución"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{{ ans.question.video_url }}"
+                           target="_blank"
+                           class="btn-duo-outline">
+                            ↗ Abrir en YouTube
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endfor %}
+
+<div class="d-flex gap-3 flex-wrap mt-4">
+    <a class="btn-duo-outline" href="{{ url_for('main.index') }}">
+        🏠 Volver al inicio
+    </a>
+
+    <a class="btn-duolingo-pro" href="{{ url_for('main.quiz_all') }}">
+        🔁 Hacer otro simulacro
+    </a>
+</div>
+
+<div class="footer-space"></div>
+
+{% endblock %}

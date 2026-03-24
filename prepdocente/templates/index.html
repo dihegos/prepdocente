@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card hero-card mb-4">
+    <div class="card-body p-4 p-md-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <div class="duo-pill mb-3">🚀 Entrena como app educativa</div>
+                <h1 class="duo-title mb-3">Entrenador para Concurso Docente</h1>
+                <p class="duo-subtitle mb-4">
+                    Practica por categorías, revisa tus respuestas, aprende con explicaciones
+                    y abre videos de solución dentro de una experiencia más visual y amigable.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{{ url_for('main.quiz_all') }}" class="btn-duolingo-pro">
+                        ▶ Iniciar simulacro
+                    </a>
+
+                    <a href="{{ url_for('main.stats') }}" class="btn-duo-outline">
+                        📊 Ver estadísticas
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="duo-stat">
+                            <div class="duo-stat-number">{{ total_questions }}</div>
+                            <div class="duo-stat-label">Preguntas</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="duo-stat">
+                            <div class="duo-stat-number">Set {{ current_exam_set }}</div>
+                            <div class="duo-stat-label">Disponible</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body p-4">
+                <h4 class="section-card-title">📝 Simulacro completo</h4>
+                <p class="text-muted">
+                    Presenta el examen completo con las preguntas cargadas del set actual.
+                </p>
+
+                <div class="mb-3">
+                    <span class="duo-pill">Preguntas: {{ total_questions }}</span>
+                    <span class="duo-pill">Set actual: {{ current_exam_set }}</span>
+                </div>
+
+                <a href="{{ url_for('main.quiz_all') }}" class="btn-duolingo-pro">
+                    🚀 Comenzar simulacro
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body p-4">
+                <h4 class="section-card-title">🎯 Práctica por tema</h4>
+                <p class="text-muted">
+                    Entra directo al bloque que quieras reforzar.
+                </p>
+
+                {% for category, rng in categories.items() %}
+                    <div class="category-item d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <div class="fw-bold">{{ category }}</div>
+                            <small class="text-muted">Preguntas {{ rng[0] }}–{{ rng[1] }}</small>
+                        </div>
+
+                        <a href="{{ url_for('main.quiz_category', category=category) }}" class="btn-duo-outline">
+                            Practicar
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-4">
+        <h4 class="section-card-title">🕘 Últimos intentos</h4>
+
+        {% if attempts %}
+            <div class="d-flex flex-column gap-3">
+                {% for attempt in attempts %}
+                    <div class="attempt-item d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div>
+                            <div class="fw-bold">
+                                {{ attempt.category or 'Simulacro completo' }}
+                                {% if attempt.mode == 'exam' %}
+                                    — Set {{ attempt.quiz_set }}
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">
+                                {{ attempt.started_at.strftime('%Y-%m-%d %H:%M') }}
+                            </small>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <span class="{% if attempt.passed %}badge-duo-success{% else %}badge-duo-danger{% endif %}">
+                                {{ attempt.score }}/{{ attempt.total_questions }} · {{ "%.1f"|format(attempt.grade_10) }}/10
+                            </span>
+
+                            <a href="{{ url_for('main.review', attempt_id=attempt.id) }}" class="btn-duo-outline">
+                                Revisar
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="mb-0 text-muted">Aún no hay intentos guardados.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
