@@ -274,6 +274,7 @@
         "option_d": "52",
         "correct_option": "C",
         "explanation": "Para formar un cubo sólido se necesita que tenga el mismo número de cubitos por lado. La figura corresponde a un cubo de 4×4×4, que tiene 64 cubitos. En la figura ya hay 15 cubitos. Entonces faltan: 64 − 15 = 49 cubitos. Por eso la respuesta correcta es 49.",
+        "image": "figuras/fig_mate_23.png",
         "video_url": "https://www.youtube.com/watch?v=pFdYGOT-Kqo"
     },
     {
