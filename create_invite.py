@@ -4,7 +4,7 @@ from prepdocente.models import db, InviteCode
 app = create_app()
 
 with app.app_context():
-    code_text = "INVITADO-2026-01"
+    code_text = "dayro-2026"
 
     existing = InviteCode.query.filter_by(code=code_text).first()
     if existing:
